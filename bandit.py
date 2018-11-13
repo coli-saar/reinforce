@@ -3,14 +3,16 @@ import numpy as np
 
 class Bandit:
 
-    def __init__(self, mean_values):
+    def __init__(self, mean_values, rng: np.random.RandomState = np.random):
         """
 
         :param mean_values: list of expected values, one for each arm of the bandit (each is a gaussian with this expected value and variance 1).
+        :param rng: the random number generator used in determining levers' outcome
         """
 
         self.n_arms = len(mean_values)
         self.values = [value for value in mean_values]
+        self.rng = rng
 
     def pull(self, lever):
         """
@@ -18,7 +20,7 @@ class Bandit:
         :param lever: lever number (int)
         :return: reward (float)
         """
-        return np.random.normal(self.values[lever], 1., 1)
+        return self.rng.normal(self.values[lever], 1., 1)
 
     def seed(self, seed_value):
         """
@@ -26,9 +28,9 @@ class Bandit:
         :param seed_value:
         :return:
         """
-        np.random.seed(seed_value)
+        self.rng.seed(seed_value)
 
 
-def make_bandit(n_arms, mean_value=0):
-    return Bandit(np.random.normal(mean_value, 1., n_arms))
+def make_bandit(n_arms, mean_value=0, rng: np.random.RandomState = np.random):
+    return Bandit(rng.normal(mean_value, 1., n_arms))
 

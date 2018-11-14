@@ -13,6 +13,7 @@ class Bandit:
         self.n_arms = len(mean_values)
         self.values = [value for value in mean_values]
         self.rng = rng
+        self.best_lever = np.argmax(self.values)
 
     def pull(self, lever):
         """
@@ -20,7 +21,7 @@ class Bandit:
         :param lever: lever number (int)
         :return: reward (float)
         """
-        return self.rng.normal(self.values[lever], 1., 1)
+        return self.rng.normal(self.values[lever], 1., 1)[0]
 
     def seed(self, seed_value):
         """
@@ -32,5 +33,5 @@ class Bandit:
 
 
 def make_bandit(n_arms, mean_value=0, rng: np.random.RandomState = np.random):
-    return Bandit(rng.normal(mean_value, 1., n_arms))
+    return Bandit(rng.normal(mean_value, 1., n_arms), rng=rng)
 

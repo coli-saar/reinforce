@@ -66,7 +66,7 @@ def plot_reward(rewards):
 
     pyplot.plot([reward for reward in rewards])
 
-    pyplot.show()
+    #pyplot.show()
 
 
 
